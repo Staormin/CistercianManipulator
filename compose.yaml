@@ -1,0 +1,8 @@
+services:
+    php:
+        env_file:
+            - .env.local
+        build: ./.docker/php/
+        volumes:
+            - .:/app
+        working_dir: /app

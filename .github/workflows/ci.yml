@@ -1,0 +1,22 @@
+name: ci
+
+on:
+    push:
+        branches: [ main ]
+
+jobs:
+    check-code:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: shivammathur/setup-php@v2
+              with:
+                php-version: 8.3
+                coverage: none
+                extensions: gd
+            - uses: ramsey/composer-install@v2
+            - name: PHPStan
+              run: vendor/bin/phpstan analyse
+            - name: Easy Coding Standard
+              run: vendor/bin/ecs check
