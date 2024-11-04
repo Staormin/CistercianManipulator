@@ -48,56 +48,6 @@ final class MergeCommand extends Command
         $this->outputDirectory = $projectDirectory . '/output/merge/' . (new DateTime())->getTimestamp();
     }
 
-    /**
-     * @param array<int, array<int>> $numbers
-     */
-    public function getBaseTallImage(array $numbers): GdImage
-    {
-        $outputWidth = $this->widthOfOneImage * 6 + $this->mergePadding;
-        $outputHeight = count($numbers) * $this->heightOfOneImage + $this->mergePadding;
-        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
-
-        if (false === $outputImage) {
-            throw new RuntimeException('Failed to create image');
-        }
-
-        $white = imagecolorallocate($outputImage, 255, 255, 255);
-
-        if (false === $white) {
-            throw new RuntimeException('Failed to allocate color');
-        }
-
-        imagefill($outputImage, 0, 0, $white);
-
-        return $outputImage;
-    }
-
-    /**
-     * @param array<int, array<int>> $numbers
-     * @return array{0: int, 1: GdImage}
-     */
-    public function getBaseWideImage(array $numbers): array
-    {
-        $heightOfOneImage = $this->segmentLength * 4;
-        $widthOfOneImage = $this->segmentLength * 2;
-
-        $outputWidth = ($widthOfOneImage * count($numbers)) - (count(
-            $numbers
-        ) * $this->lineThickness) + $this->mergePadding;
-        $outputHeight = $heightOfOneImage + $this->mergePadding;
-
-        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
-        $white = imagecolorallocate($outputImage, 255, 255, 255);
-
-        if (false === $white) {
-            throw new RuntimeException('Failed to allocate color');
-        }
-
-        imagefill($outputImage, 0, 0, $white);
-
-        return [$widthOfOneImage, $outputImage];
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         FileUtil::ensureDirectoryExists($this->outputDirectory);
@@ -129,6 +79,56 @@ final class MergeCommand extends Command
         $this->generateTruncatedOutput();
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @param array<int, array<int>> $numbers
+     */
+    private function getBaseTallImage(array $numbers): GdImage
+    {
+        $outputWidth = $this->widthOfOneImage * 6 + $this->mergePadding;
+        $outputHeight = count($numbers) * $this->heightOfOneImage + $this->mergePadding;
+        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
+
+        if (false === $outputImage) {
+            throw new RuntimeException('Failed to create image');
+        }
+
+        $white = imagecolorallocate($outputImage, 255, 255, 255);
+
+        if (false === $white) {
+            throw new RuntimeException('Failed to allocate color');
+        }
+
+        imagefill($outputImage, 0, 0, $white);
+
+        return $outputImage;
+    }
+
+    /**
+     * @param array<int, array<int>> $numbers
+     * @return array{0: int, 1: GdImage}
+     */
+    private function getBaseWideImage(array $numbers): array
+    {
+        $heightOfOneImage = $this->segmentLength * 4;
+        $widthOfOneImage = $this->segmentLength * 2;
+
+        $outputWidth = ($widthOfOneImage * count($numbers)) - (count(
+            $numbers
+        ) * $this->lineThickness) + $this->mergePadding;
+        $outputHeight = $heightOfOneImage + $this->mergePadding;
+
+        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
+        $white = imagecolorallocate($outputImage, 255, 255, 255);
+
+        if (false === $white) {
+            throw new RuntimeException('Failed to allocate color');
+        }
+
+        imagefill($outputImage, 0, 0, $white);
+
+        return [$widthOfOneImage, $outputImage];
     }
 
     /**
