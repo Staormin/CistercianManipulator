@@ -52,3 +52,52 @@ make merge-view
 make cc
 ```
 
+## Example output
+
+Difference
+
+<img src="examples/0-output-difference.png" width='500' />
+
+Difference truncated
+
+<img src="examples/0-output-difference-truncated.png" width='500' />
+
+Side by Side unmerged
+
+<img src="examples/1-output-side-to-side-unmerged.png" width='500' />
+
+Side by Side unmerged truncated
+
+<img src="examples/1-output-side-to-side-unmerged-truncated.png" width='500' />
+
+Side by Side merged
+
+<img src="examples/2-output-side-to-side-merged.png" width='500' />
+
+Side by Side merged truncated
+
+<img src="examples/2-output-side-to-side-merged-truncated.png" width='500' />
+
+Multi line merged
+
+<img src="examples/3-output-multiple-lines-merged.png" width='100' />
+
+Multi line unmerged
+
+<img src="examples/4-output-multiple-lines-unmerged.png" width='100' />
+
+Multi line shift unmerged full space
+
+<img src="examples/5-output-multiple-lines-shifted-unmerged-full-space.png" width='100' />
+
+Multi line shift unmerged half space
+
+<img src="examples/6-output-multiple-lines-shifted-unmerged-half-space.png" width='100' />
+
+Multi line shift merged full space
+
+<img src="examples/7-output-multiple-lines-shifted-merged-full-space.png" width='100' />
+
+Multi line shift merged half space
+
+<img src="examples/8-output-multiple-lines-shifted-merged-half-space.png" width='100' />
