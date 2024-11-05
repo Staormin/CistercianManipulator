@@ -13,7 +13,7 @@ build: ## Build containers
 ssh: ## Log into php container
 	$(DOCKER_COMPOSE_RUN) fish
 
-install: destroy build install-vendor copy-env ## install project
+install: copy-env destroy build install-vendor ## install project
 
 copy-env:
 	[ -f .env.local ] || cp .env.local-dist .env.local
