@@ -13,6 +13,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
@@ -30,6 +31,8 @@ final class MergeCommand extends Command
     private int $heightOfOneImage;
 
     private string $outputDirectory;
+
+    private SymfonyStyle $io;
 
     public function __construct(
         private readonly CistercianNumberGeneratorService $cistercianNumberGeneratorService,
@@ -50,6 +53,10 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io = new SymfonyStyle($input, $output);
+
+        $this->io->title('Cistercian Merge Command');
+
         FileUtil::ensureDirectoryExists($this->outputDirectory);
 
         $numbers = [
@@ -66,6 +73,10 @@ final class MergeCommand extends Command
             [8030, 59],
         ];
 
+        $this->io->table(['Numbers'], $numbers);
+
+        $this->io->text('Generating images...');
+
         $this->generateOneLineDifference($numbers);
         $this->generateOneLineSideToSideUnmerged($numbers);
         $this->generateOneLineSideToSideMerged($numbers);
@@ -75,8 +86,13 @@ final class MergeCommand extends Command
         $this->generateMultipleLinesUnmergedWithShiftHalfSpace($numbers);
         $this->generateMultipleLinesMergedWithShiftFullSpace($numbers);
         $this->generateMultipleLinesMergedWithShiftHalfSpace($numbers);
-
         $this->generateTruncatedOutput();
+
+        $outputDirectoryForDisplay = implode('/', array_slice(explode('/', $this->outputDirectory), -3));
+
+        $this->io->success(
+            sprintf('Images generated successfully! You can find them in %s/', $outputDirectoryForDisplay)
+        );
 
         return Command::SUCCESS;
     }
